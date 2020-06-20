@@ -1,11 +1,14 @@
-﻿namespace persistent_accent
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace persistent_accent
 {
     partial class Form1
     {
         /// <summary>
         ///  Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         ///  Clean up any resources being used.
@@ -29,18 +32,20 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.nicoHide = new System.Windows.Forms.NotifyIcon(this.components);
+            this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.end = new System.Windows.Forms.Button();
+            this.logBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
-            // nicoHide
+            // trayIcon
             // 
-            this.nicoHide.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.nicoHide.Text = "Click to view";
-            this.nicoHide.Visible = true;
-            this.nicoHide.MouseClick += new System.Windows.Forms.MouseEventHandler(this.nicoHide_MouseClick);
+            this.trayIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.trayIcon.BalloonTipText = "Form minimized to system tray.";
+            this.trayIcon.BalloonTipTitle = "Hide Form";
+            this.trayIcon.Text = "Click to view";
+            this.trayIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseClick);
             // 
             // label1
             // 
@@ -59,33 +64,51 @@
             // 
             // end
             // 
-            this.end.Location = new System.Drawing.Point(99, 119);
+            this.end.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.end.Location = new System.Drawing.Point(247, 226);
             this.end.Name = "end";
             this.end.Size = new System.Drawing.Size(75, 23);
             this.end.TabIndex = 0;
-            this.end.Text = "exit";
+            this.end.Text = "Exit";
             this.end.UseVisualStyleBackColor = true;
             this.end.Click += new System.EventHandler(this.button1_Click);
             // 
+            // logBox
+            // 
+            this.logBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.logBox.Location = new System.Drawing.Point(12, 12);
+            this.logBox.Multiline = true;
+            this.logBox.Name = "logBox";
+            this.logBox.ReadOnly = true;
+            this.logBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.logBox.Size = new System.Drawing.Size(310, 208);
+            this.logBox.TabIndex = 1;
+            // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new System.Drawing.Size(334, 261);
+            this.Controls.Add(this.logBox);
             this.Controls.Add(this.end);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(300, 200);
             this.Name = "Form1";
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.Text = "PersistentAccent";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Resize += new System.EventHandler(this.Form1_Resize);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.NotifyIcon nicoHide;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.RichTextBox richTextBox1;
-        private System.Windows.Forms.Button end;
+        private NotifyIcon trayIcon;
+        private Label label1;
+        private RichTextBox richTextBox1;
+        private Button end;
+        private TextBox logBox;
     }
 }
 
