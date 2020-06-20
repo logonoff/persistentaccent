@@ -41,10 +41,10 @@ namespace persistent_accent
             // 
             // trayIcon
             // 
-            this.trayIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            /*this.trayIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.trayIcon.BalloonTipText = "Form minimized to system tray.";
-            this.trayIcon.BalloonTipTitle = "Hide Form";
-            this.trayIcon.Text = "Click to view";
+            this.trayIcon.BalloonTipTitle = "Hide Form";*/
+            this.trayIcon.Text = "persistentaccent";
             this.trayIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseClick);
             // 
             // label1

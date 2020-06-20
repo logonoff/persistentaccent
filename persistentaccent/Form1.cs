@@ -37,11 +37,11 @@ namespace persistent_accent
         private async void UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
             Log($"User preference changing. Category: {e.Category}");
-            if (e.Category == UserPreferenceCategory.Desktop)
-            {
+            //if (e.Category == UserPreferenceCategory.Desktop)
+            //{
                 await Task.Delay(1000);
                 SetAccent();
-            }
+            //}
         }
 
         private void Form1_Resize(object sender, EventArgs e)
@@ -49,7 +49,6 @@ namespace persistent_accent
             if (WindowState == FormWindowState.Minimized)
             {
                 trayIcon.Visible = true;
-                trayIcon.ShowBalloonTip(3);
                 Hide();
             }
             else
