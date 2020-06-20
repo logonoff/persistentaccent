@@ -68,9 +68,14 @@ namespace persistent_accent
             SystemEvents.UserPreferenceChanged -= UserPreferenceChanged;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void end_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void forceSetAccent_Click(object sender, EventArgs e)
+        {
+            SetAccent();
         }
     }
 }

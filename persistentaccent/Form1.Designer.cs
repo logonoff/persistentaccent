@@ -37,13 +37,11 @@ namespace persistent_accent
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.end = new System.Windows.Forms.Button();
             this.logBox = new System.Windows.Forms.TextBox();
+            this.forceSetAccent = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // trayIcon
             // 
-            /*this.trayIcon.BalloonTipIcon = System.Windows.Forms.ToolTipIcon.Info;
-            this.trayIcon.BalloonTipText = "Form minimized to system tray.";
-            this.trayIcon.BalloonTipTitle = "Hide Form";*/
             this.trayIcon.Text = "persistentaccent";
             this.trayIcon.MouseClick += new System.Windows.Forms.MouseEventHandler(this.trayIcon_MouseClick);
             // 
@@ -71,7 +69,7 @@ namespace persistent_accent
             this.end.TabIndex = 0;
             this.end.Text = "Exit";
             this.end.UseVisualStyleBackColor = true;
-            this.end.Click += new System.EventHandler(this.button1_Click);
+            this.end.Click += new System.EventHandler(this.end_Click);
             // 
             // logBox
             // 
@@ -86,9 +84,21 @@ namespace persistent_accent
             this.logBox.Size = new System.Drawing.Size(310, 208);
             this.logBox.TabIndex = 1;
             // 
+            // forceSetAccent
+            // 
+            this.forceSetAccent.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.forceSetAccent.Location = new System.Drawing.Point(111, 226);
+            this.forceSetAccent.Name = "forceSetAccent";
+            this.forceSetAccent.Size = new System.Drawing.Size(130, 23);
+            this.forceSetAccent.TabIndex = 0;
+            this.forceSetAccent.Text = "Change accent now";
+            this.forceSetAccent.UseVisualStyleBackColor = true;
+            this.forceSetAccent.Click += new System.EventHandler(this.forceSetAccent_Click);
+            // 
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(334, 261);
+            this.Controls.Add(this.forceSetAccent);
             this.Controls.Add(this.logBox);
             this.Controls.Add(this.end);
             this.MaximizeBox = false;
@@ -109,6 +119,7 @@ namespace persistent_accent
         private RichTextBox richTextBox1;
         private Button end;
         private TextBox logBox;
+        private Button forceSetAccent;
     }
 }
 
