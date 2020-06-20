@@ -1,12 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 
 namespace persistent_accent
 {
@@ -18,72 +13,60 @@ namespace persistent_accent
 
             // Set the SystemEvents class to receive event notification when a user 
             // preference changes, the palette changes, or when display settings change.
-            SystemEvents.UserPreferenceChanged += x;
+            SystemEvents.UserPreferenceChanged += UserPreferenceChanged;
 
-            // For demonstration purposes, this application sits idle waiting for events.
-            Console.WriteLine("This application is waiting for system events.");
-            Console.WriteLine("Press <Enter> to terminate this application.");
-            Console.ReadLine();
+            Icon = trayIcon.Icon = Resources.bruv;
         }
 
-        readonly static UserPreferenceChangedEventHandler x = new UserPreferenceChangedEventHandler(Thingy);
+        private const string RegKey = @"SOFTWARE\Microsoft\Windows\DWM";
+        private const string RegName = "AccentColor";
+        private const int RegValue = unchecked((int)0xff000000);
 
-        /* 
-         * called when a user preference changes
-         */
-        static void Thingy(object sender, UserPreferenceChangedEventArgs e)
+        private void SetAccent()
         {
-            Console.WriteLine("The user preference is changing. Category={0}", e.Category);
-
-            System.Threading.Thread.Sleep(1000);
-
-            RegistryKey key = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\DWM", true);
-
-            key.SetValue("AccentColor", unchecked((int)0xff000000), RegistryValueKind.DWord);
-
-            key.Close();
+            using (RegistryKey key = Registry.CurrentUser.OpenSubKey(RegKey, true))
+            {
+                key.SetValue(RegName, RegValue, RegistryValueKind.DWord);
+            }
+            Log($"Changed {RegKey}\\{RegName} to 0x{RegValue:X}");
         }
 
-        /*
-         * Hide program in tray
-         * http://smartsnipp.ecomparefiles.com/code/c_sharp_windows_application/windows_form_hide_and_show_in_system_tray.aspx
-         */
-        private void Form1_Load(object sender, EventArgs e)
+        private void Log(string text) => logBox.AppendText(text + Environment.NewLine);
+
+        // called when a user preference changes
+        private async void UserPreferenceChanged(object sender, UserPreferenceChangedEventArgs e)
         {
-            this.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
-            nicoHide.Icon = Icon.ExtractAssociatedIcon(Application.ExecutablePath);
+            Log($"User preference changing. Category: {e.Category}");
+            if (e.Category == UserPreferenceCategory.Desktop)
+            {
+                await Task.Delay(1000);
+                SetAccent();
+            }
         }
 
         private void Form1_Resize(object sender, EventArgs e)
         {
-            nicoHide.BalloonTipTitle = "Hide Form";
-            nicoHide.BalloonTipText = "Form Minimized to System Tray.";
-
-            if (FormWindowState.Minimized == this.WindowState)
+            if (WindowState == FormWindowState.Minimized)
             {
-                nicoHide.Visible = true;
-                nicoHide.ShowBalloonTip(4);
-                this.Hide();
+                trayIcon.Visible = true;
+                trayIcon.ShowBalloonTip(3);
+                Hide();
             }
-            else if (FormWindowState.Normal == this.WindowState)
+            else
             {
-                nicoHide.Visible = false;
+                trayIcon.Visible = false;
             }
         }
 
-        private void nicoHide_MouseClick(object sender, MouseEventArgs e)
+        private void trayIcon_MouseClick(object sender, MouseEventArgs e)
         {
-            this.Show();
-            this.WindowState = FormWindowState.Normal;
+            Show();
+            WindowState = FormWindowState.Normal;
         }
 
-        /*
-         * i think this is what you do
-         * when you want to unhook a thingy
-         */
-        private void Form1_FormClosing(Object sender, FormClosingEventArgs e)
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SystemEvents.UserPreferenceChanged -= x;
+            SystemEvents.UserPreferenceChanged -= UserPreferenceChanged;
         }
 
         private void button1_Click(object sender, EventArgs e)
