@@ -16,8 +16,23 @@ namespace persistent_accent
             SystemEvents.UserPreferenceChanged += UserPreferenceChanged;
 
             Icon = trayIcon.Icon = Resources.bruv;
+
+            // silent command argument
+            foreach (string arg in args)
+            {
+                if (arg.Contains("-silent"))
+                {
+                    Log(arg);
+                    WindowState = FormWindowState.Minimized;
+                    ShowInTaskbar = false;
+                    trayIcon.Visible = true;
+                    SetAccent();
+                }
+            }
+
         }
 
+        private readonly string[] args = Environment.GetCommandLineArgs();
         private const string RegKey = @"SOFTWARE\Microsoft\Windows\DWM";
         private const string RegName = "AccentColor";
         private const int RegValue = unchecked((int)0xff000000);
